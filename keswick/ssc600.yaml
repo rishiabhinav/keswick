@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssc600
+  namespace: default
+  labels:
+    app: ssc600
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ssc600
+  template:
+    metadata:
+      labels:
+        app: ssc600
+    spec:
+      containers:
+      - name: ssc600
+        image: solicitousabhi/ssc600:1.0
+        env:
+        - name: ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS
+          value: 'true'
+        ports:
+        - containerPort: 5004
+          name: https
+      imagePullSecrets:
+      - name: regcred
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ssc600
+  namespace: default
+spec:
+  selector:
+    app: ssc600
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 5004
+    targetPort: 5004
+    nodePort: 30070

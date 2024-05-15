@@ -1,20 +1,4 @@
 apiVersion: vmoperator.vmware.com/v1alpha1
-kind: VirtualMachineClass
-metadata:
- name: photon-rt
-spec:
- hardware:
-  cpus: 4
-  memory: 16Gi
- policies:
-  resources:
-   requests:
-    cpu: 4
-    memory: 16Gi
-
----
-
-apiVersion: vmoperator.vmware.com/v1alpha1
 kind: VirtualMachine
 metadata:
   name: photon-vm
@@ -22,7 +6,7 @@ metadata:
   annotations:
     vmoperator.vmware.com/image-supported-check: disable
 spec:
-  className: photon-rt
+  className: guaranteed-small
   imageName: packages.vmware.com/photon/4.0/GA/ova/photon-hw11-4.0-1526e30ba0.ova
   powerState: poweredOn
   networkInterfaces:
